@@ -2,12 +2,6 @@ from jinja2 import Environment, FileSystemLoader
 from yaml import load, FullLoader, YAMLError
 import sys
 
-def load_config(server_name):
-    cf = ConfigParser()
-    cf.read(config_file)
-    values = cf.items(server_name)
-    print(values)
-
 def render_to_file(host,content):
     env = Environment(loader=FileSystemLoader('./'))
     tpl = env.get_template('template')

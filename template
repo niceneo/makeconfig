@@ -1,0 +1,41 @@
+filebeat.prospectors:
+{% for appname, appinfo in data.items() -%}
+####################{{ appname }}###############################
+{% for mdus in appinfo -%}
+- type: log
+  enabled: true
+  paths:
+{%- if logs == 'dev' %}
+    - /myapp/apps/java/{{ appname }}/applogs/{{ mdus }}.log
+  fields:
+    host: "{{ host }}"
+    app: "{{ appname }}"
+    module: "{{ mdus }}"
+{%- elif mdus is string %}
+    - /myapp/apps/java/{{ appname }}/module_logs/{{ mdus }}/{{ mdus }}.log
+  fields:
+    host: "{{ host }}"
+    app: "{{ appname }}"
+    module: "{{ mdus }}"
+{%- else %}
+{%- for module, modules in mdus.items() %}
+{%- for log in modules %}
+    - /myapp/apps/java/{{ appname }}/module_logs/{{ module }}/{{ log }}.log
+{%- endfor %}
+  fields:
+    host: "{{ host }}"
+    app: "{{ appname }}"
+    module: "{{ module }}"
+{%- endfor %}
+{%- endif %}
+  multiline.pattern: '^[0-9]{4}-[0-9]{2}-[0-9]{2}'
+  multiline.negate: true
+  multiline.match: after
+{% endfor -%}
+{%- endfor -%}
+output.kafka:
+  hosts: ["192.168.2.1:9092","192.168.2.2:9092"]
+  topic: "test"
+processors:
+- drop_fields:
+    fields: ["beat.hostname", "beat.name", "beat.version", "host.name", "log.flags","offset"]

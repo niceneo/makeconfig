@@ -1,0 +1,29 @@
+192.168.2.1:
+  A0001:
+    - dev
+    - test-core
+    - test-nice
+  B0001:
+    - dev
+    - test-core-b0001
+    - test-core-b0002
+192.168.2.2:
+  A0001:
+    - dev
+    - test-core
+    - test-nice
+  R0001:
+    - dev
+    - test-core-r0001:
+        - test-core-r0001-1
+        - test-core-r0001-2
+    - test-core-r0002
+192.168.2.3:
+  A0001:
+    - dev
+    - test-core
+    - test-nice
+  V0001:
+    - dev
+    - test-core-v0001
+    - test-core-v0002

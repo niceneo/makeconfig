@@ -6,7 +6,7 @@
 Usage:    
  #python make_config_file.py info.yml
  
-filebeat配置样例：    
+生成的filebeat配置样例：    
 ```
 filebeat.prospectors:
 ####################A0001###############################
